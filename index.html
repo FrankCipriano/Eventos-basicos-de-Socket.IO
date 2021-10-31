@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conexiones con Socket.IO</title>
+</head>
+<body>
+    <h1>Comunicación bidireccional con Socket.io</h1>
+    <p id="hello"></p>
+    <p>Número de conexiones activas: <b id="conexiones"></b></p>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        (function(){
+            `use strict`
+            const c_io=io(),
+                d=document,
+                $p=d.getElementById(`hello`),
+                $b=d.getElementById(`conexiones`)
+
+            c_io.on(`mi_mensaje`,(data)=>{
+                console.log(data)
+                $p.innerText=data.mensaje
+                c_io.emit(`mensaje_front`,{nombre:`FrankDev`})
+            })
+            c_io.on(`usuarios_activos`,(data)=>{
+                console.log(`Clientes en linea: ${data.usuarios}`)
+                $b.innerText=data.usuarios
+            })
+        })()
+    </script>
+</body>
+</html>
